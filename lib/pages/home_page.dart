@@ -6,7 +6,10 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final VoidCallback toggleTheme;
+  final bool isDarkMode;
+
+  const HomePage({super.key, required this.toggleTheme, required this.isDarkMode});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -15,7 +18,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
   String pathPDF = "";
-  bool _isDarkMode = true;
 
   @override
   void initState() {
@@ -63,94 +65,59 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _toggleTheme() {
-    setState(() {
-      _isDarkMode = !_isDarkMode;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: _isDarkMode
-          ? ThemeData.dark().copyWith(
-              primaryColor: Colors.blueGrey[800],
-              textTheme: ThemeData.dark().textTheme.copyWith(
-                    bodyLarge: const TextStyle(color: Colors.white),
-                    bodyMedium: const TextStyle(color: Colors.white70),
-                    displayLarge: const TextStyle(color: Colors.white, fontSize: 32),
-                    titleLarge: const TextStyle(color: Colors.white70),
-                  ),
-              appBarTheme: AppBarTheme(
-                backgroundColor: Colors.blueGrey[900],
-                foregroundColor: Colors.white,
-              ), colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blueAccent),
-            )
-          : ThemeData.light().copyWith(
-              primaryColor: Colors.blueGrey[100],
-              textTheme: ThemeData.light().textTheme.copyWith(
-                    bodyLarge: const TextStyle(color: Colors.black),
-                    bodyMedium: const TextStyle(color: Colors.black54),
-                    displayLarge: const TextStyle(color: Colors.black, fontSize: 32),
-                    titleLarge: const TextStyle(color: Colors.black54),
-                  ),
-              appBarTheme: AppBarTheme(
-                backgroundColor: Colors.blueGrey[100],
-                foregroundColor: Colors.black,
-              ), colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blueAccent),
-            ),
-      home: Scaffold(
-        body: Row(
-          children: [
-            NavBar(
-              onNavClick: scrollToSection,
-              isDarkMode: _isDarkMode,
-              toggleTheme: _toggleTheme,
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 1200),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Section(
-                          title: 'About',
-                          content: Text(
-                            'This is the about section where you can introduce yourself.',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
+    return Scaffold(
+      body: Row(
+        children: [
+          NavBar(
+            onNavClick: scrollToSection,
+            isDarkMode: widget.isDarkMode,
+            toggleTheme: widget.toggleTheme,
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 1200),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Section(
+                        title: 'About',
+                        content: Text(
+                          'This is the about section where you can introduce yourself.',
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                        Section(
-                          title: 'Projects',
-                          content: Text(
-                            'Here are some of my projects.',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
+                      ),
+                      Section(
+                        title: 'Projects',
+                        content: Text(
+                          'Here are some of my projects.',
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                        Section(
-                          title: 'Contact',
-                          content: Text(
-                            'Get in touch with me via email or LinkedIn.',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
+                      ),
+                      Section(
+                        title: 'Contact',
+                        content: Text(
+                          'Get in touch with me via email or LinkedIn.',
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                        Section(
-                          title: 'Resume',
-                          content: pathPDF.isNotEmpty
-                              ? PDFView(filePath: pathPDF)
-                              : const Center(child: CircularProgressIndicator()),
-                        ),
-                      ],
-                    ),
+                      ),
+                      Section(
+                        title: 'Resume',
+                        content: pathPDF.isNotEmpty
+                            ? PDFView(filePath: pathPDF)
+                            : const Center(child: CircularProgressIndicator()),
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -174,7 +141,7 @@ class Section extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: Theme.of(context).textTheme.displayLarge),
+          Text(title, style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 20),
           content,
         ],

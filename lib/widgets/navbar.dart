@@ -5,73 +5,52 @@ class NavBar extends StatelessWidget {
   final bool isDarkMode;
   final VoidCallback toggleTheme;
 
-  const NavBar({super.key, required this.onNavClick, required this.isDarkMode, required this.toggleTheme});
+  NavBar({
+    required this.onNavClick,
+    required this.isDarkMode,
+    required this.toggleTheme,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 80, // Smaller width for the sidebar
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      color: isDarkMode ? Colors.blueGrey[900] : Colors.white,
+      width: 80.0,
+      color: Theme.of(context).appBarTheme.backgroundColor,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Navbar items
-          NavItem(
-            icon: Icons.person,
-            text: 'About',
-            onTap: () => onNavClick('about'),
-            isDarkMode: isDarkMode,
-          ),
-          NavItem(
-            icon: Icons.work,
-            text: 'Projects',
-            onTap: () => onNavClick('projects'),
-            isDarkMode: isDarkMode,
-          ),
-          NavItem(
-            icon: Icons.contact_mail,
-            text: 'Contact',
-            onTap: () => onNavClick('contact'),
-            isDarkMode: isDarkMode,
-          ),
-          NavItem(
-            icon: Icons.file_copy,
-            text: 'Resume',
-            onTap: () => onNavClick('resume'),
-            isDarkMode: isDarkMode,
-          ),
-          const Spacer(), // Push the toggle button to the bottom
-          IconButton(
-            icon: Icon(
-              isDarkMode ? Icons.light_mode : Icons.dark_mode,
-              color: isDarkMode ? Colors.white : Colors.black,
+          SizedBox(height: 40), // Spacing from the top
+          buildNavItem(context, 'about', Icons.person),
+          SizedBox(height: 20), // Spacing between items
+          buildNavItem(context, 'projects', Icons.work),
+          SizedBox(height: 20), // Spacing between items
+          buildNavItem(context, 'contact', Icons.contact_mail),
+          SizedBox(height: 20), // Spacing between items
+          buildNavItem(context, 'resume', Icons.picture_as_pdf),
+          Spacer(), // Pushes the toggle button to the bottom
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
+              onPressed: toggleTheme,
             ),
-            onPressed: toggleTheme,
           ),
         ],
       ),
     );
   }
-}
 
-class NavItem extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  final VoidCallback onTap;
-  final bool isDarkMode;
-
-  const NavItem({super.key, required this.icon, required this.text, required this.onTap, required this.isDarkMode});
-
-  @override
-  Widget build(BuildContext context) {
+  Widget buildNavItem(BuildContext context, String section, IconData icon) {
     return InkWell(
-      onTap: onTap,
+      onTap: () => onNavClick(section),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: isDarkMode ? Colors.white : Colors.black),
-          const SizedBox(height: 8),
-          Text(text, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
+          Icon(icon, size: 24),
+          SizedBox(height: 8),
+          Text(
+            section[0].toUpperCase() + section.substring(1),
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
         ],
       ),
     );
