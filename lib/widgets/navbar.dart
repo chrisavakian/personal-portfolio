@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class NavBar extends StatelessWidget {
+  final Function(String) onNavClick;
+
+  NavBar({required this.onNavClick});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,12 +16,24 @@ class NavBar extends StatelessWidget {
           Text('My Portfolio', style: TextStyle(color: Colors.white, fontSize: 24)),
           Row(
             children: [
-              TextButton(onPressed: () {}, child: Text('Home', style: TextStyle(color: Colors.white))),
-              TextButton(onPressed: () {}, child: Text('About', style: TextStyle(color: Colors.white))),
-              TextButton(onPressed: () {}, child: Text('Projects', style: TextStyle(color: Colors.white))),
-              TextButton(onPressed: () {}, child: Text('Contact', style: TextStyle(color: Colors.white))),
+              TextButton(
+                onPressed: () => onNavClick('about'),
+                child: Text('About', style: TextStyle(color: Colors.white)),
+              ),
+              TextButton(
+                onPressed: () => onNavClick('projects'),
+                child: Text('Projects', style: TextStyle(color: Colors.white)),
+              ),
+              TextButton(
+                onPressed: () => onNavClick('contact'),
+                child: Text('Contact', style: TextStyle(color: Colors.white)),
+              ),
+              TextButton(
+                onPressed: () => onNavClick('resume'),
+                child: Text('Resume', style: TextStyle(color: Colors.white)),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
