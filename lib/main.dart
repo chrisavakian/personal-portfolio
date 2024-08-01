@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/pages/home_page.dart';
+import '/pages/about_page.dart'; // Import the new About page
 
 void main() {
   runApp(const MyApp());
@@ -59,7 +60,12 @@ class _MyAppState extends State<MyApp> {
           foregroundColor: Colors.white,
         ),
       ),
-      home: HomePage(toggleTheme: _toggleTheme, isDarkMode: _isDarkMode),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(toggleTheme: _toggleTheme, isDarkMode: _isDarkMode),
+        '/about': (context) => AboutPage(isDarkMode: _isDarkMode),
+        // Add other routes here
+      },
     );
   }
 }
