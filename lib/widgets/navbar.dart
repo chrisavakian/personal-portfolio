@@ -42,7 +42,9 @@ class NavBar extends StatelessWidget {
 
   Widget buildNavItem(BuildContext context, String title, IconData icon, String route) {
     return InkWell(
-      onTap: () => Navigator.of(context).pushNamed(route),
+      onTap: () {
+        Navigator.of(context).pushNamed(route);
+      },
       child: Column(
         children: [
           Icon(icon, size: 24),

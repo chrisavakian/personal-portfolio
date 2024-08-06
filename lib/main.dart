@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
+          seedColor: const Color.fromARGB(255, 243, 107, 33),
           brightness: Brightness.light,
         ),
         textTheme: const TextTheme(

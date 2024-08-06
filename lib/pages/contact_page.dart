@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-class AboutPage extends StatelessWidget {
+class ContactPage extends StatelessWidget {
   final bool isDarkMode;
 
-  AboutPage({required this.isDarkMode});
+  ContactPage({required this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About'),
+        title: Text('Contact'),
       ),
       body: Center(
         child: Text(
-          'This is the About page with some temporary text.',
+          'This is the Contact page with some temporary text.',
           style: Theme.of(context).textTheme.bodyLarge,
         ),
       ),
